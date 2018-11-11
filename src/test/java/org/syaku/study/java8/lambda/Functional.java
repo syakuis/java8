@@ -12,6 +12,23 @@ import org.junit.Test;
 import lombok.extern.log4j.Log4j2;
 
 /**
+ * 인수가 두개인 경우
+ *
+ * - biConsumer: 원하는 유형 두개의 인수를 받고 결과는 없다.
+ * - biFunction: 원하는 유형 두개의 인수를 받고 원하는 유형의 결과를 반환한다.
+ * - binaryOperator: 원하는 유형 두개의 인수를 받고 결과를 반환한다. 단 인수와 결과의 유형이 모두 동일해야 한다.
+ * - biPredicate: 원하는 유형 두개의 인수를 받고 결과를  boolean 으로 반환한다.
+ *
+ * 인수가 한개인 경우
+ *
+ * - Consumer: 원하는 유형 한개의 인수를 받고 결과는 없다.
+ * - Function: 원하는 유형 한개의 인수를 받고 원하는 유형의 결과를 반환한다.
+ * - UnaryOperator: 원하는 유형 한개의 인수를 받고 결과를 반환한다. 단 인수와 결과의 유형이 모두 동일해야 한다.
+ * - Predicate: 원하는 유형 한개의 인수를 받고 결과를  boolean 으로 반환한다.
+ *
+ * 인수가 없는 경우
+ * - supplier: 인수가 없고 결과를 boolean 으로 반환한다.
+ *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @since 11/11/2018
  */
@@ -52,9 +69,6 @@ public class Functional {
     assertEquals(one.andThen(two).apply(2).intValue(), 400);
   }
 
-  /**
-   * 두개의 인수를 받고 결과를 생성하지 않는 다.
-   */
   @Test
   public void biConsumer() {
     BiConsumer<String, String> func = (v1, v2) -> {
@@ -64,18 +78,12 @@ public class Functional {
     func.accept("a", "b");
   }
 
-  /**
-   * 두 개의 인수를 받고 결과를 생성한다.
-   */
   @Test
   public void biFunction() {
     BiFunction<String, String, String> func = (v1, v2) -> v1 + v2;
     assertEquals(func.apply("syaku", "syaku"), "syakusyaku");
   }
 
-  /**
-   * 동일한 유형의 두 인수를 받고 동일한 유형의 결과를 생성한다.
-   */
   @Test
   public void binaryOperator() {
     BinaryOperator<List<String>> func = (v, v2) -> {
@@ -98,9 +106,6 @@ public class Functional {
     assertEquals(min.apply(1, 2).intValue(), 1);
   }
 
-  /**
-   * 두개 인수를 받고 결과를 boolean 유형으로 생성한다.
-   */
   @Test
   public void biPredicate() {
     // (v, v2) -> Objects.equals(v, v2);
@@ -109,9 +114,6 @@ public class Functional {
     assertTrue(func.test("A", "A"));
   }
 
-  /**
-   * 인수를 받지 않고 결과를 boolean 유형으로 반환한다.
-   */
   @Test
   public void booleanSupplier() {
     BooleanSupplier func = () -> {
@@ -125,36 +127,24 @@ public class Functional {
     bool.apply(func, func);
   }
 
-  /**
-   * 한개의 인수를 받는 다.
-   */
   @Test
   public void consumer() {
     Consumer<String> func = v -> assertEquals(v, "a");
     func.accept("a");
   }
 
-  /**
-   * 두개의 double 유형의 인수를 받고 결과를 반환한다.
-   */
   @Test
   public void doubleBinaryOperator() {
     DoubleBinaryOperator func = (v, v2) -> v + v2;
     assertEquals(func.applyAsDouble(1.1, 1.1), 2.2, 2.2);
   }
 
-  /**
-   * 한개의 double 유형 인수를 받는 다.
-   */
   @Test
   public void doubleConsumer() {
     DoubleConsumer func = v -> assertEquals(v, 1.1, 1.1);
     func.accept(1.1);
   }
 
-  /**
-   * 한개의 double 유형 인수를 받고 결과를 생성한다.
-   */
   @Test
   public void doubleFunction() {
     // v -> String.valueOf(v)
@@ -162,18 +152,12 @@ public class Functional {
     assertEquals(func.apply(1.2), "1.2");
   }
 
-  /**
-   * 한개의 double 유형 인수를 받고 결과를 boolean 유형을 생성한다.
-   */
   @Test
   public void doublePredicate() {
     DoublePredicate func = v -> v > 1.1;
     assertTrue(func.test(1.2));
   }
 
-  /**
-   * 인수를 받지 않고 결과를 double 유형으로 반환한다.
-   */
   @Test
   public void doubleSupplier() {
     DoubleSupplier func = () -> 1.1;
@@ -204,10 +188,6 @@ public class Functional {
     assertEquals(func.compose(func2).applyAsDouble(5), 50, 50);
   }
 
-  /**
-   * 한개의 인수를 받는 다.
-   * 결과를 반환한다.
-   */
   @Test
   public void function() {
     Function<String, String> func = v -> v + "a";
@@ -222,10 +202,6 @@ public class Functional {
 
   // Int, Long, Obj Function 은 Double 유사하므로 생략한다.
 
-  /**
-   * 한개의 인수를 받는 다.
-   * 결과를 boolean 유형으로 반환한다.
-   */
   @Test
   public void predicate() {
     Predicate<String> func = v -> Objects.equals(v, "ok");
@@ -239,15 +215,12 @@ public class Functional {
     assertTrue(func.or(func2).test("ok"));
   }
 
-  /**
-   * 인수를 받지 않는 다.
-   * 결과를 반환한다.
-   */
   @Test
   public void supplier() {
+    String a = null;
     Supplier<Boolean> func = () -> {
       log.debug("실행됨.");
-      return false;
+      return a != null;
     };
 
     // 매개변수 한개가 false 이므로 두개다 실행되지 않는 다.
@@ -255,11 +228,6 @@ public class Functional {
     bool.apply(func, func);
   }
 
-  /**
-   * 인수와 결과가 동일한 유형일때 사용한다.
-   * 한개 인수를 받는 다.
-   * 결과를 반환한다.
-   */
   @Test
   public void unaryOperator() {
     UnaryOperator<String> func = v -> v + "a";
