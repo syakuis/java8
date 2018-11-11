@@ -204,6 +204,10 @@ public class Functional {
     assertEquals(func.compose(func2).applyAsDouble(5), 50, 50);
   }
 
+  /**
+   * 한개의 인수를 받는 다.
+   * 결과를 반환한다.
+   */
   @Test
   public void function() {
     Function<String, String> func = v -> v + "a";
@@ -214,5 +218,51 @@ public class Functional {
     assertEquals(func.compose(func2).apply("b"), "bba");
     // func call
     assertEquals(func.andThen(func2).apply("b"), "baba");
+  }
+
+  // Int, Long, Obj Function 은 Double 유사하므로 생략한다.
+
+  /**
+   * 한개의 인수를 받는 다.
+   * 결과를 boolean 유형으로 반환한다.
+   */
+  @Test
+  public void predicate() {
+    Predicate<String> func = v -> Objects.equals(v, "ok");
+    assertTrue(func.test("ok"));
+    // 부정
+    assertFalse(func.negate().test("ok"));
+
+    // v -> "ok".contains(v)
+    Predicate<String> func2 = "aaaaa"::contains;
+    assertFalse(func.and(func2).test("ok"));
+    assertTrue(func.or(func2).test("ok"));
+  }
+
+  /**
+   * 인수를 받지 않는 다.
+   * 결과를 반환한다.
+   */
+  @Test
+  public void supplier() {
+    Supplier<Boolean> func = () -> {
+      log.debug("실행됨.");
+      return false;
+    };
+
+    // 매개변수 한개가 false 이므로 두개다 실행되지 않는 다.
+    BiFunction<Supplier, Supplier, Boolean> bool = (v, v2) -> (boolean) v.get() && (boolean) v2.get();
+    bool.apply(func, func);
+  }
+
+  /**
+   * 인수와 결과가 동일한 유형일때 사용한다.
+   * 한개 인수를 받는 다.
+   * 결과를 반환한다.
+   */
+  @Test
+  public void unaryOperator() {
+    UnaryOperator<String> func = v -> v + "a";
+    assertEquals(func.apply("a"), "aa");
   }
 }
