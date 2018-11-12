@@ -27,7 +27,7 @@ import lombok.extern.log4j.Log4j2;
  * - Predicate: 원하는 유형 한개의 인수를 받고 결과를  boolean 으로 반환한다.
  *
  * 인수가 없는 경우
- * - supplier: 인수가 없고 결과를 boolean 으로 반환한다.
+ * - supplier: 인수가 없고 원하는 유형의 결과를 반환한다.
  *
  * @author Seok Kyun. Choi. 최석균 (Syaku)
  * @since 11/11/2018
