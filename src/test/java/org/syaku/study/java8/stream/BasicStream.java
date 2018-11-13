@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  * @since 12/11/2018
  */
 @Log4j2
-public class Streams {
+public class BasicStream {
   @Test
   public void create() {
 

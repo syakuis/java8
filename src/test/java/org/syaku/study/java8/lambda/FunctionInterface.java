@@ -33,7 +33,7 @@ import lombok.extern.log4j.Log4j2;
  * @since 11/11/2018
  */
 @Log4j2
-public class Functional {
+public class FunctionInterface {
   @FunctionalInterface
   interface StringUtils {
     String concat(String value, String value2);
