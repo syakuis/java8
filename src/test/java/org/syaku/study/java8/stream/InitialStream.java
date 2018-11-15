@@ -40,7 +40,8 @@ public class InitialStream {
 
     @Test
     public void of() {
-        // todo of 는 파라미터 타입을 선언하지 않아도 추론이 가능하다. why?
+        // of 는 제너릭 파라미터 타입을 선언하지 않아도 추론이 가능하다. why?
+        // 스트림의 파라메터 값의 유형으로 타입을 사용한다.
         List<String> kor = Stream.of("가").collect(Collectors.toList());
         List<Integer> num = Stream.of(1, 2, 3).collect(Collectors.toList());
 
@@ -50,7 +51,8 @@ public class InitialStream {
 
     @Test
     public void iterate() {
-        // todo 어디에 쓸까?
+        // 어디에 사용할까?
+        // 초기 반복되는 데이터 생성이나 Supplier 에 사용할 듯? 즉 인자가 없는 반환만 있는 함수 인터페이스에 사용될 것 같다.
         List<String> result = Stream
                 // 무한 반복이 된다. limit 를 이용하여 횟수를 설정한다.
                 .iterate("안녕", n -> n).limit(2)
@@ -60,7 +62,8 @@ public class InitialStream {
 
     @Test
     public void generate() {
-        // todo 어디에 쓸까?
+        // 어디에 사용할까?
+        // 초기 반복되는 데이터 생성이나 Supplier 에 사용할 듯? 즉 인자가 없는 반환만 있는 함수 인터페이스에 사용될 것 같다.
         List<String> result = Stream
                 // Supplier 함수 인터페이스를 사용 - 인수 없고 결과 있음
                 .generate(() -> "안녕")
