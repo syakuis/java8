@@ -1,13 +1,16 @@
 package org.syaku.study.java8.stream;
 
+import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 
+@Log4j2
 public class MiddleStream {
     private List<String> color = Arrays.asList("Green", "Black", "Yellow", "Red", "Black", "Yellow");
     private List<Integer> number = Arrays.asList(4, 5, 1, 3, 9, 5, 1);
@@ -54,9 +57,25 @@ public class MiddleStream {
 
     @Test
     public void flatMap() {
-        /*List<Integer> result = color.stream()
-                // Function 함수 인터페이스를 사용하고 원하는 데이터 타입의 스트림으로 반환한다.
-                .flatMap(n -> n)
-                .collect(Collectors.toList());*/
+        // 테스트
+        // 2차 배열을 1차 배열로 만든다라는 설명으로 이해할 수 없었다.
+        List<List<String>> list =
+            Arrays.asList(Arrays.asList("a"), Arrays.asList("b", "c"));
+
+        // 이해하기 위해 두가 코드로 작성하고 반환 유형을 확인하였다.
+
+        // map 과 flatMap 의 차이.
+        // map 은 인자 그대로 반환하고 즉 아래처럼 스트림으로 만들면 스트림으로 반환된다.
+        // flatMap 은 반환 유형은 스트림의 제너릭 유형으로 스트림의 값을 반환한다.
+        list.stream().map(n -> n.stream())
+                // List<Stream<String>>
+                .collect(Collectors.toList()).forEach(log::debug);
+        List<String> result = list.stream().flatMap(n -> n.stream())
+                // List<String>
+                .collect(Collectors.toList());
+        result.forEach(log::debug);
+
+        assertEquals(result, Arrays.asList("a", "b", "c"));
+
     }
 }
