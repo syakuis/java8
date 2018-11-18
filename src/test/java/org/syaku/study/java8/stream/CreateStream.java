@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-public class InitialStream {
+public class CreateStream {
     @Test
     public void array() {
         String[] data = new String[]{ "가", "나" };
