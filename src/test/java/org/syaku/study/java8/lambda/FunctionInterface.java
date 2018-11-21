@@ -34,6 +34,20 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 public class FunctionInterface {
+  private boolean test() {
+    log.debug("test ...");
+    return false;
+  }
+
+  @Test
+  public void lazy() {
+    if (false || test()) {
+      log.debug("true");
+    } else {
+      log.debug("false");
+    }
+  }
+
   @FunctionalInterface
   interface StringUtils {
     String concat(String value, String value2);
